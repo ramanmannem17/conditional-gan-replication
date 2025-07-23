@@ -3,7 +3,7 @@ using Random
 using Statistics
 using JLD2
 
-println("🔹 Loading preprocessed data...")
+println(" Loading preprocessed data...")
 data = JLD2.load("preprocessed_data.jld2")
 X_raw = data["X"]
 y_raw = Float32.(data["y"])
@@ -14,12 +14,12 @@ y = y_raw
 
 # Shift indices to be >=1
 if any(X .<= 0)
-    println("⚠️ Found zeros or negatives in X! Shifting indices up by 1.")
+    println(" Found zeros or negatives in X! Shifting indices up by 1.")
     X .= X .+ 1
 end
 
 N = size(X, 2)
-println("✅ Dataset size: $N examples")
+println(" Dataset size: $N examples")
 
 k = 10  # Number of folds
 
@@ -40,7 +40,7 @@ embedding_dim = 8
 hidden_dim = 16
 epochs = 10
 
-println("🔹 Starting 10-fold cross-validation...")
+println(" Starting 10-fold cross-validation...")
 
 for (fold_num, val_idx) in enumerate(folds)
     train_idx = setdiff(shuffled_indices, val_idx)
@@ -50,7 +50,7 @@ for (fold_num, val_idx) in enumerate(folds)
     X_val = X[:, val_idx]
     y_val = y[val_idx]
 
-    println("🟢 Fold $fold_num: Training $(length(train_idx)) samples, Validation $(length(val_idx)) samples")
+    println(" Fold $fold_num: Training $(length(train_idx)) samples, Validation $(length(val_idx)) samples")
 
     # Build fresh model
     model = Chain(
@@ -80,8 +80,8 @@ Flux.update!(state, model, gs[1])
     acc = mean(preds_binary .== y_val)
     push!(accuracies, acc)
 
-    println("✅ Fold $fold_num Validation Accuracy: $(round(acc*100, digits=2))%")
+    println(" Fold $fold_num Validation Accuracy: $(round(acc*100, digits=2))%")
 end
 
 avg_acc = mean(accuracies)
-println("🏁 10-Fold Cross-Validation Average Accuracy: $(round(avg_acc*100, digits=2))%")
+println(" 10-Fold Cross-Validation Average Accuracy: $(round(avg_acc*100, digits=2))%")
