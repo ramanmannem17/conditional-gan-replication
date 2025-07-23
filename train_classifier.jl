@@ -3,7 +3,7 @@ using JLD2
 using Statistics
 
 function main()
-    println("🔹 Loading data...")
+    println(" Loading data...")
     data = load("preprocessed_data.jld2")
     X = data["X"]
     y = data["y"]
@@ -14,7 +14,7 @@ function main()
     println("y shape: ", size(y))
 
     if any(X .<= 0)
-        println("⚠️ Found zeros or negatives in X! Shifting indices up by 1.")
+        println(" Found zeros or negatives in X! Shifting indices up by 1.")
         X .= X .+ 1
     end
 
@@ -40,7 +40,7 @@ function main()
     opt = Flux.Adam()
     state = Flux.setup(opt, model)   # <-- NEW: setup optimizer state
 
-    println("🚀 Starting training...")
+    println(" Starting training...")
     epochs = 10
     for epoch in 1:epochs
         function loss(m)
@@ -52,7 +52,7 @@ function main()
         println("Epoch $epoch/$epochs | Loss = $l")
     end
 
-    println("✅ Training complete.")
+    println(" Training complete.")
 end
 
 main()
