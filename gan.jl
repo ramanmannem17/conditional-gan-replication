@@ -40,7 +40,7 @@ raw_labels = rand(0:1, num_samples)
 labels = Flux.onehotbatch(raw_labels, 0:1)
 
 # --- Training Loop ---
-println("🚀 Starting CGAN training...")
+println(" Starting CGAN training...")
 
 for epoch in 1:epochs
     epoch_d_loss = Float32[]
@@ -95,7 +95,7 @@ for epoch in 1:epochs
     println("Epoch $epoch/$epochs | D_loss = $(mean(epoch_d_loss)) | G_loss = $(mean(epoch_g_loss))")
 end
 
-println("✅ Training complete.")
+println(" Training complete.")
 
 # --- Example: Generate synthetic features ---
 z_new = randn(Float32, latent_dim, 1)
